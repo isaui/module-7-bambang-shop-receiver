@@ -1,5 +1,5 @@
 use rocket::serde::{Serialize, Deserialize};
-#[derive(Debug, Clone. Serealize, Deserealize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(crate="rocket::serde")]
 pub struct SubscriberRequest{
     pub url: String,
