@@ -61,12 +61,12 @@ You can install Postman via this website: https://www.postman.com/downloads/
 ## Mandatory Checklists (Subscriber)
 -   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create SubscriberRequest model struct.`
-    -   [ ] Commit: `Create Notification database and Notification repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Notification repository.`
-    -   [ ] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create SubscriberRequest model struct.`
+    -   [x] Commit: `Create Notification database and Notification repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Notification repository.`
+    -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -85,5 +85,7 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+1. Dalam tutorial ini, penggunaan RwLock<> untuk mengsinkronkan penggunaan Vec dari Notifikasi diperlukan karena kita ingin memungkinkan banyak pembaca untuk mengakses struktur data tersebut secara bersamaan, sementara hanya satu penulis yang dapat mengubahnya pada satu waktu. Dengan menggunakan RwLock<>, kita dapat memastikan bahwa pembaca dapat mengakses data Notifikasi secara paralel tanpa saling mengganggu, sementara penulis memiliki eksklusifitas untuk mengubah data tanpa interferensi dari pembaca. Hal ini sangat penting dalam konteks di mana kita memiliki banyak thread yang berpotensi untuk membaca data Notifikasi secara bersamaan.
 
+Namun, kita tidak menggunakan Mutex<> dalam kasus ini karena Mutex<> hanya mengizinkan satu thread untuk memiliki akses ke data pada satu waktu baik untuk membaca maupun menulis. Dalam kasus ini, karena kita ingin memungkinkan banyak pembaca untuk mengakses data Notifikasi secara bersamaan, penggunaan Mutex<> akan menyebabkan pembaca harus menunggu hingga penulis selesai menggunakan data tersebut, bahkan jika pembaca hanya melakukan operasi baca. Ini akan mengurangi efisiensi sistem, terutama jika terjadi banyak operasi baca. Dengan RwLock<>, pembaca dapat bekerja secara paralel kecuali ketika penulis sedang mengubah data, yang dapat meningkatkan kinerja aplikasi dalam situasi di mana pembacaan data jauh lebih umum daripada penulisan.
 #### Reflection Subscriber-2
