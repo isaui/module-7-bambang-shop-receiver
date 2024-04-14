@@ -59,7 +59,7 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   Open another new terminal, edit `ROCKET_PORT` in `.env` to `8003`, then execute `cargo run`.
 
 ## Mandatory Checklists (Subscriber)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
 -   **STAGE 1: Implement models and repositories**
     -   [x] Commit: `Create Notification model struct.`
     -   [x] Commit: `Create SubscriberRequest model struct.`
@@ -86,6 +86,6 @@ This is the place for you to write reflections:
 
 #### Reflection Subscriber-1
 1. Dalam tutorial ini, penggunaan RwLock<> untuk mengsinkronkan penggunaan Vec dari Notifikasi diperlukan karena kita ingin memungkinkan banyak pembaca untuk mengakses struktur data tersebut secara bersamaan, sementara hanya satu penulis yang dapat mengubahnya pada satu waktu. Dengan menggunakan RwLock<>, kita dapat memastikan bahwa pembaca dapat mengakses data Notifikasi secara paralel tanpa saling mengganggu, sementara penulis memiliki eksklusifitas untuk mengubah data tanpa interferensi dari pembaca. Hal ini sangat penting dalam konteks di mana kita memiliki banyak thread yang berpotensi untuk membaca data Notifikasi secara bersamaan.
-
 Namun, kita tidak menggunakan Mutex<> dalam kasus ini karena Mutex<> hanya mengizinkan satu thread untuk memiliki akses ke data pada satu waktu baik untuk membaca maupun menulis. Dalam kasus ini, karena kita ingin memungkinkan banyak pembaca untuk mengakses data Notifikasi secara bersamaan, penggunaan Mutex<> akan menyebabkan pembaca harus menunggu hingga penulis selesai menggunakan data tersebut, bahkan jika pembaca hanya melakukan operasi baca. Ini akan mengurangi efisiensi sistem, terutama jika terjadi banyak operasi baca. Dengan RwLock<>, pembaca dapat bekerja secara paralel kecuali ketika penulis sedang mengubah data, yang dapat meningkatkan kinerja aplikasi dalam situasi di mana pembacaan data jauh lebih umum daripada penulisan.
+2. Dalam tutorial ini, kita menggunakan library eksternal lazy_static untuk mendefinisikan Vec dan DashMap sebagai variabel "static". Berbeda dengan Java di mana kita dapat memutasi konten dari variabel statik melalui fungsi statik, Rust tidak mengizinkan kita untuk melakukannya karena keamanan dan pengelolaan memori yang lebih ketat. Rust menerapkan aturan peminjaman yang ketat untuk mencegah datarace dan konflik peminjaman pada waktu kompilasi. Dengan demikian, memutasi variabel statik dari fungsi statik dapat membuka kemungkinan adanya peminjaman yang tidak aman atau konflik akses yang dapat menyebabkan kesalahan di waktu kompilasi atau bahkan di waktu runtime. Oleh karena itu, Rust mendorong pendekatan yang lebih aman dengan mewajibkan penanganan peminjaman secara eksplisit dan menjamin keselamatan memori pada tingkat kompilasi.
 #### Reflection Subscriber-2
